@@ -12,6 +12,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.NamedQuery;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.SequenceGenerator;
@@ -27,6 +28,8 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
+@NamedQuery(name = "Customer.findByUsername",
+            query = "SELECT c FROM Customer c WHERE c.username = :username")
 @XmlRootElement
 /**
  *
