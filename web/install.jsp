@@ -26,7 +26,7 @@
              * 
              * If there is any problem, it will exit at the very first error.
              */
-            String dbname = "homework1";
+            String dbname = "SOB_grup_60";
             String schema = "ROOT";
             Class.forName("org.apache.derby.jdbc.ClientDriver");
             /* this will generate database if not exist */
@@ -38,7 +38,7 @@
             String data[] = new String[]{
                 "INSERT INTO " + schema + ".TOPIC VALUES (NEXT VALUE FOR TOPIC_GEN, 'Computer Science')",
                 "INSERT INTO " + schema + ".COMMENT VALUES (NEXT VALUE FOR COMMENT_GEN, 'Skeleton code', 1)",
-                "INSERT INTO " + schema + ".COMMENT VALUES (NEXT VALUE FOR COMMENT_GEN, 'for homework1', 1)",
+                "INSERT INTO " + schema + ".COMMENT VALUES (NEXT VALUE FOR COMMENT_GEN, 'for SOB_grup_60', 1)",
                 "INSERT INTO " + schema + ".CREDENTIALS VALUES (NEXT VALUE FOR CREDENTIALS_GEN, 'sob', 'sob')"
             };
             for (String datum : data) {
