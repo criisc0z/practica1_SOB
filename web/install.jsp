@@ -42,20 +42,20 @@
                 "INSERT INTO " + schema + ".CUSTOMER (ID, CREATIONDATE, EMAIL, PASSWORD, USERNAME) "
                     + "VALUES (NEXT VALUE FOR " + schema + ".CUSTOMER_GEN, CURRENT_TIMESTAMP, 'ana@sob.cat', 'ana123', 'ana')",
 
-                // TOOL: id, category, code, creationDate, description, language, name, privat, version, AUTHOR_ID
+               // TOOL
                 "INSERT INTO " + schema + ".TOOL (ID, CATEGORY, CODE, CREATIONDATE, DESCRIPTION, LANGUAGE, NAME, PRIVAT, VERSION, AUTHOR_ID) "
                     + "VALUES (NEXT VALUE FOR " + schema + ".TOOL_GEN, 'math', 'def suma(a, b): return a + b', CURRENT_TIMESTAMP, "
-                    + "'Suma dos numeros', 'python', 'suma', false, '1.0', 1)",
+                    + "'Suma dos numeros', 'python', 'suma', 0, '1.0', 1)",
                 "INSERT INTO " + schema + ".TOOL (ID, CATEGORY, CODE, CREATIONDATE, DESCRIPTION, LANGUAGE, NAME, PRIVAT, VERSION, AUTHOR_ID) "
                     + "VALUES (NEXT VALUE FOR " + schema + ".TOOL_GEN, 'text', 'def upper(s): return s.upper()', CURRENT_TIMESTAMP, "
-                    + "'Pasa a mayusculas', 'python', 'upper', true, '1.0', 2)",
+                    + "'Pasa a mayusculas', 'python', 'upper', 1, '1.0', 2)",
 
-                // PROMPT: id, creationDate, description, privat, template, title, AUTHOR_ID
+                // PROMPT
                 "INSERT INTO " + schema + ".PROMPT (ID, CREATIONDATE, DESCRIPTION, PRIVAT, TEMPLATE, TITLE, AUTHOR_ID) "
-                    + "VALUES (NEXT VALUE FOR " + schema + ".PROMPT_GEN, CURRENT_TIMESTAMP, 'Resume un texto', false, "
+                    + "VALUES (NEXT VALUE FOR " + schema + ".PROMPT_GEN, CURRENT_TIMESTAMP, 'Resume un texto', 0, "
                     + "'Resume el siguiente texto: {text}', 'Resumidor', 1)",
                 "INSERT INTO " + schema + ".PROMPT (ID, CREATIONDATE, DESCRIPTION, PRIVAT, TEMPLATE, TITLE, AUTHOR_ID) "
-                    + "VALUES (NEXT VALUE FOR " + schema + ".PROMPT_GEN, CURRENT_TIMESTAMP, 'Prompt privado', true, "
+                    + "VALUES (NEXT VALUE FOR " + schema + ".PROMPT_GEN, CURRENT_TIMESTAMP, 'Prompt privado', 1, "
                     + "'Eres un experto en {topic}', 'Experto', 2)"
             };
             for (String datum : data) {
