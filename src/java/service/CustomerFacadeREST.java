@@ -13,32 +13,32 @@ import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
-import model.entities.Comment;
+import model.entities.Customer;
 import authn.Secured;
 import jakarta.ws.rs.core.Response;
 
 @Stateless
-@Path("comment")
-public class CommentFacadeREST extends AbstractFacade<Comment> {
+@Path("customer")
+public class CustomerFacadeREST extends AbstractFacade<Customer> {
 
     @PersistenceContext(unitName = "Homework1PU")
     private EntityManager em;
 
-    public CommentFacadeREST() {
-        super(Comment.class);
+    public CustomerFacadeREST() {
+        super(Customer.class);
     }
 
     @POST
     @Override
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public void create(Comment entity) {
+    public void create(Customer entity) {
         super.create(entity);
     }
 
     @PUT
     @Path("{id}")
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public void edit(@PathParam("id") Long id, Comment entity) {
+    public void edit(@PathParam("id") Long id, Customer entity) {
         super.edit(entity);
     }
 
@@ -59,21 +59,21 @@ public class CommentFacadeREST extends AbstractFacade<Comment> {
     @GET
     @Override
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public List<Comment> findAll() {
+    public List<Customer> findAll() {
         return super.findAll();
     }
 
     @GET
     @Path("{from}/{to}")
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public List<Comment> findRange(@PathParam("from") Integer from, @PathParam("to") Integer to) {
+    public List<Customer> findRange(@PathParam("from") Integer from, @PathParam("to") Integer to) {
         return super.findRange(new int[]{from, to});
     }
 
     @GET
-    @Path("count")
+    @Path("customer")
     @Produces(MediaType.TEXT_PLAIN)
-    public String countREST() {
+    public String customerREST() {
         return String.valueOf(super.count());
     }
 
@@ -81,5 +81,4 @@ public class CommentFacadeREST extends AbstractFacade<Comment> {
     protected EntityManager getEntityManager() {
         return em;
     }
-    
 }

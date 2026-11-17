@@ -28,7 +28,8 @@ import java.util.Date;
 @XmlRootElement
 /**
  *
- * @author Cristina
+ * @author Critina
+ * @author Aroa
  */
 public class Tool implements Serializable{
     private static final long serialVersionUID = 1L;

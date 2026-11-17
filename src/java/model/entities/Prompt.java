@@ -32,7 +32,8 @@ import java.util.List;
 @XmlRootElement
 /**
  *
- * @author Cristina
+ * @author Critina
+ * @author Aroa
  */
 public class Prompt implements Serializable{
     private static final long serialVersionUID = 1L;
@@ -67,6 +68,7 @@ public class Prompt implements Serializable{
     private Date dataCreacio;
     
     
+    //getters i setters
     @PrePersist
     void onCreate(){
         dataCreacio= new Date();
@@ -76,23 +78,47 @@ public class Prompt implements Serializable{
         return id;
     }
     
+    public void setId(Long id){
+        this.id=id;
+    } 
+    
     public String getTitol(){
         return titol;
     }
     
-    public String getDesc(){
+    public void setTitol(String titol){
+        this.titol=titol;
+    }
+    
+    public String getDescription(){
         return description;
+    }
+    
+    public void setDescription(String desc){
+        this.description=desc;
     }
     
     public String getTemplate(){
         return template;
     }
     
+    public void setTemplate(String template){
+        this.template=template;
+    }
+    
     public Customer getAutor(){
         return autor;
     }
     
+    public void setAutor(Customer a){
+        this.autor=a;
+    }
+    
     public  List<String> getEtiquetes(){
         return etiquetes;
+    }
+    
+    public void setEtiquetes(List<String> e){
+        this.etiquetes=e;
     }
 }

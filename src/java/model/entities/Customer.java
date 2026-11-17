@@ -33,7 +33,8 @@ import java.util.List;
 @XmlRootElement
 /**
  *
- * @author Cristina 
+ * @author Critina
+ * @author Aroa
  */
 public class Customer implements Serializable{
     @Id
