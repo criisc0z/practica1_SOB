@@ -27,55 +27,19 @@ public class CustomerFacadeREST extends AbstractFacade<Customer> {
     public CustomerFacadeREST() {
         super(Customer.class);
     }
-
-    @POST
-    @Override
-    @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public void create(Customer entity) {
-        super.create(entity);
-    }
-
-    @PUT
-    @Path("{id}")
-    @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public void edit(@PathParam("id") Long id, Customer entity) {
-        super.edit(entity);
-    }
-
-    @DELETE
-    @Path("{id}")
-    public void remove(@PathParam("id") Long id) {
-        super.remove(super.find(id));
-    }
-
-    @GET
-    @Secured
-    @Path("{id}")
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public Response find(@PathParam("id") Long id) {
-        return Response.ok().entity(super.find(id)).build();
-    }
-
+    
+    //1: GET /rest/api/v1/customer
     @GET
     @Override
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public List<Customer> findAll() {
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<Customer> findAll(){
         return super.findAll();
     }
 
-    @GET
-    @Path("{from}/{to}")
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public List<Customer> findRange(@PathParam("from") Integer from, @PathParam("to") Integer to) {
-        return super.findRange(new int[]{from, to});
-    }
-
-    @GET
-    @Path("customer")
-    @Produces(MediaType.TEXT_PLAIN)
-    public String customerREST() {
-        return String.valueOf(super.count());
-    }
+    //2: GET /rest/api/v1/customer/{id}
+    
+    
+    
 
     @Override
     protected EntityManager getEntityManager() {
