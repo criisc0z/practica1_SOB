@@ -35,6 +35,21 @@
 
                 "INSERT INTO " + schema + ".PROMPT (ID, DATACREACIO, DESCRIPTION, PRIVAT, TEMPLATE, TITOL, AUTHOR_ID) VALUES (NEXT VALUE FOR PROMPT_GEN, CURRENT_TIMESTAMP, 'Resume un texto', 0, 'Resume el siguiente texto: {text}', 'Resumidor', 1)",
                 "INSERT INTO " + schema + ".PROMPT (ID, DATACREACIO, DESCRIPTION, PRIVAT, TEMPLATE, TITOL, AUTHOR_ID) VALUES (NEXT VALUE FOR PROMPT_GEN, CURRENT_TIMESTAMP, 'Prompt privado', 1, 'Eres un experto en {topic}', 'Experto', 2)"
+            
+                // Un tercer prompt público de ana, para probar los filtros author y tag
+                "INSERT INTO " + schema + ".PROMPT (ID, DATACREACIO, DESCRIPTION, PRIVAT, TEMPLATE, TITOL, AUTHOR_ID) VALUES (NEXT VALUE FOR PROMPT_GEN, CURRENT_TIMESTAMP, 'Traduce un texto', 0, 'Traduce al {idioma}: {text}', 'Traductor', 2)",
+
+                // Etiquetas de los prompts (tabla PROMPT_TAGS)
+                "INSERT INTO " + schema + ".PROMPT_TAGS (PROMPT_ID, TAGS) VALUES (1, 'resumen')",
+                "INSERT INTO " + schema + ".PROMPT_TAGS (PROMPT_ID, TAGS) VALUES (1, 'texto')",
+                "INSERT INTO " + schema + ".PROMPT_TAGS (PROMPT_ID, TAGS) VALUES (2, 'experto')",
+                "INSERT INTO " + schema + ".PROMPT_TAGS (PROMPT_ID, TAGS) VALUES (3, 'texto')",
+                "INSERT INTO " + schema + ".PROMPT_TAGS (PROMPT_ID, TAGS) VALUES (3, 'idiomas')",
+
+                // Herramientas de cada prompt (tabla PROMPT_TOOL)
+                "INSERT INTO " + schema + ".PROMPT_TOOL (PROMPT_ID, TOOLS_ID) VALUES (1, 1)",
+                "INSERT INTO " + schema + ".PROMPT_TOOL (PROMPT_ID, TOOLS_ID) VALUES (1, 2)",
+                "INSERT INTO " + schema + ".PROMPT_TOOL (PROMPT_ID, TOOLS_ID) VALUES (2, 2)"
             };
 
             for (String datum : data) {
