@@ -49,15 +49,15 @@ public class PromptFacadeREST extends AbstractFacade<Prompt> {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public List<Object> findPrompts(@QueryParam("author") String author,
-                                  @QueryParam("tag") List<String> tag){
+                                  @QueryParam("tag") String tag){
         
         String jpql = "SELECT p FROM Prompt p";
         if(tag != null && !tag.isEmpty()){
-            jpql += " JOIN p.etiquetes e";
+            jpql += " JOIN p.tags e";
         }
         jpql += " WHERE p.id > 0";
         if (author != null && !author.isEmpty()) {
-            jpql += " AND p.autor.username = :author";
+            jpql += " AND p.author.username = :author";
         }
         if(tag != null && !tag.isEmpty()){
             jpql += " AND e = :tag";
@@ -70,7 +70,7 @@ public class PromptFacadeREST extends AbstractFacade<Prompt> {
         List<Object> result = new ArrayList<>();
         for (Prompt p : query.getResultList()) {
             if (p.isPrivat()) {
-                result.add(resumen(p));      // privado: solo id, título, autor y fecha
+                result.add(resumen(p));      // privado: solo id, título, author y fecha
             } else {
                 result.add(completo(p));     // público: todo
             }
@@ -78,5 +78,44 @@ public class PromptFacadeREST extends AbstractFacade<Prompt> {
         return result;
     }
     
+    @GET
+    @Path("{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response findPrompt(@PathParam("id") Long id, @Context SecurityContext sc) {
+        Prompt p = super.find(id);
+        if (p == null) {
+            return Response.status(Response.Status.NOT_FOUND).build();       // 404
+        }
+        // Si es privado, hay que haber hecho login
+        if (p.isPrivat() && sc.getUserPrincipal() == null) {
+            return Response.status(Response.Status.UNAUTHORIZED).build();    // 401
+        }
+        return Response.ok(completo(p)).build();
+    }
+    
+     // Versión reducida (prompts privados)
+    private Map<String, Object> resumen(Prompt p) {
+        Map<String, Object> m = new LinkedHashMap<>();
+        m.put("id", p.getId());
+        m.put("titol", p.getTitol());
+        m.put("author", p.getAuthor().getUsername());
+        m.put("dataCreacio", p.getDataCreacio());
+        return m;
+    }
+
+    // Versión completa
+    private Map<String, Object> completo(Prompt p) {
+        Map<String, Object> m = resumen(p);
+        m.put("description", p.getDescription());
+        m.put("template", p.getTemplate());
+        m.put("tags", new ArrayList<>(p.getTags()));
+        List<Long> toolIds = new ArrayList<>();
+        for (Tool t : p.getTools()) {
+            toolIds.add(t.getId());
+        }
+        m.put("tools", toolIds);
+        m.put("privat", p.isPrivat());
+        return m;
+    }
     
 }
