@@ -78,6 +78,21 @@ public class PromptFacadeREST extends AbstractFacade<Prompt> {
         return result;
     }
     
+    @GET
+    @Path("{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response findPrompt(@PathParam("id") Long id, @Context SecurityContext sc) {
+        Prompt p = super.find(id);
+        if (p == null) {
+            return Response.status(Response.Status.NOT_FOUND).build();       // 404
+        }
+        // Si es privado, hay que haber hecho login
+        if (p.isPrivat() && sc.getUserPrincipal() == null) {
+            return Response.status(Response.Status.UNAUTHORIZED).build();    // 401
+        }
+        return Response.ok(completo(p)).build();
+    }
+    
      // Versión reducida (prompts privados)
     private Map<String, Object> resumen(Prompt p) {
         Map<String, Object> m = new LinkedHashMap<>();
