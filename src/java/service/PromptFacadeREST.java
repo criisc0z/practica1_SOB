@@ -78,5 +78,29 @@ public class PromptFacadeREST extends AbstractFacade<Prompt> {
         return result;
     }
     
+     // Versión reducida (prompts privados)
+    private Map<String, Object> resumen(Prompt p) {
+        Map<String, Object> m = new LinkedHashMap<>();
+        m.put("id", p.getId());
+        m.put("titol", p.getTitol());
+        m.put("autor", p.getAutor().getUsername());
+        m.put("dataCreacio", p.getDataCreacio());
+        return m;
+    }
+
+    // Versión completa
+    private Map<String, Object> completo(Prompt p) {
+        Map<String, Object> m = resumen(p);
+        m.put("description", p.getDescription());
+        m.put("template", p.getTemplate());
+        m.put("etiquetes", new ArrayList<>(p.getEtiquetes()));
+        List<Long> toolIds = new ArrayList<>();
+        for (Tool t : p.getTools()) {
+            toolIds.add(t.getId());
+        }
+        m.put("tools", toolIds);
+        m.put("privat", p.isPrivat());
+        return m;
+    }
     
 }
