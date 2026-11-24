@@ -70,14 +70,14 @@ public class CustomerFacadeREST extends AbstractFacade<Customer> {
 
     private Long lastPromptId(Customer c) {
         List<Long> r = em.createQuery(
-                "SELECT p.id FROM Prompt p WHERE p.author = :a ORDER BY p.id DESC", Long.class)
+                "SELECT p.id FROM Prompt p WHERE p.autor = :a ORDER BY p.id DESC", Long.class)
                 .setParameter("a", c).setMaxResults(1).getResultList();
         return r.isEmpty() ? null : r.get(0);
     }
 
     private Long lastToolId(Customer c) {
         List<Long> r = em.createQuery(
-                "SELECT t.id FROM Tool t WHERE t.author = :a ORDER BY t.id DESC", Long.class)
+                "SELECT t.id FROM Tool t WHERE t.autor = :a ORDER BY t.id DESC", Long.class)
                 .setParameter("a", c).setMaxResults(1).getResultList();
         return r.isEmpty() ? null : r.get(0);
     }
@@ -95,7 +95,7 @@ public class CustomerFacadeREST extends AbstractFacade<Customer> {
             return Response.status(Response.Status.BAD_REQUEST).build();        // 400
         }
         // username es unique: evitamos el error de BD y devolvemos 409
-        List<Customer> same = em.createNamedQuery("Customer.findUser", Customer.class)
+        List<Customer> same = em.createNamedQuery("Customer.findByUsername", Customer.class)
                 .setParameter("username", entity.getUsername())
                 .getResultList();
         if (!same.isEmpty() && !same.get(0).getId().equals(id)) {
