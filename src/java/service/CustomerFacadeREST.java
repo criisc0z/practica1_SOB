@@ -70,14 +70,14 @@ public class CustomerFacadeREST extends AbstractFacade<Customer> {
 
     private Long lastPromptId(Customer c) {
         List<Long> r = em.createQuery(
-                "SELECT p.id FROM Prompt p WHERE p.autor = :a ORDER BY p.id DESC", Long.class)
+                "SELECT p.id FROM Prompt p WHERE p.author = :a ORDER BY p.id DESC", Long.class)
                 .setParameter("a", c).setMaxResults(1).getResultList();
         return r.isEmpty() ? null : r.get(0);
     }
 
     private Long lastToolId(Customer c) {
         List<Long> r = em.createQuery(
-                "SELECT t.id FROM Tool t WHERE t.autor = :a ORDER BY t.id DESC", Long.class)
+                "SELECT t.id FROM Tool t WHERE t.author = :a ORDER BY t.id DESC", Long.class)
                 .setParameter("a", c).setMaxResults(1).getResultList();
         return r.isEmpty() ? null : r.get(0);
     }
