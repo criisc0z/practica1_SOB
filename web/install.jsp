@@ -33,8 +33,8 @@
                 "INSERT INTO " + schema + ".TOOL (ID, CATEGORY, CODE, CREATIONDATE, DESCRIPTION, LANGUAGE, NAME, PRIVAT, VERSION, AUTHOR_ID) VALUES (NEXT VALUE FOR TOOL_GEN, 'math', 'def suma(a, b): return a + b', CURRENT_TIMESTAMP, 'Suma dos numeros', 'python', 'suma', 0, '1.0', 1)",
                 "INSERT INTO " + schema + ".TOOL (ID, CATEGORY, CODE, CREATIONDATE, DESCRIPTION, LANGUAGE, NAME, PRIVAT, VERSION, AUTHOR_ID) VALUES (NEXT VALUE FOR TOOL_GEN, 'text', 'def upper(s): return s.upper()', CURRENT_TIMESTAMP, 'Pasa a mayusculas', 'python', 'upper', 1, '1.0', 2)",
 
-                "INSERT INTO " + schema + ".PROMPT (ID, DATACREACIO, DESCRIPTION, PRIVAT, TEMPLATE, TITOL, AUTOR_ID) VALUES (NEXT VALUE FOR PROMPT_GEN, CURRENT_TIMESTAMP, 'Resume un texto', 0, 'Resume el siguiente texto: {text}', 'Resumidor', 1)",
-                "INSERT INTO " + schema + ".PROMPT (ID, DATACREACIO, DESCRIPTION, PRIVAT, TEMPLATE, TITOL, AUTOR_ID) VALUES (NEXT VALUE FOR PROMPT_GEN, CURRENT_TIMESTAMP, 'Prompt privado', 1, 'Eres un experto en {topic}', 'Experto', 2)"
+                "INSERT INTO " + schema + ".PROMPT (ID, DATACREACIO, DESCRIPTION, PRIVAT, TEMPLATE, TITOL, AUTHOR_ID) VALUES (NEXT VALUE FOR PROMPT_GEN, CURRENT_TIMESTAMP, 'Resume un texto', 0, 'Resume el siguiente texto: {text}', 'Resumidor', 1)",
+                "INSERT INTO " + schema + ".PROMPT (ID, DATACREACIO, DESCRIPTION, PRIVAT, TEMPLATE, TITOL, AUTHOR_ID) VALUES (NEXT VALUE FOR PROMPT_GEN, CURRENT_TIMESTAMP, 'Prompt privado', 1, 'Eres un experto en {topic}', 'Experto', 2)"
             };
 
             for (String datum : data) {

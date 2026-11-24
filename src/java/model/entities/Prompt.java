@@ -17,6 +17,7 @@ import jakarta.persistence.SequenceGenerator;
 import jakarta.xml.bind.annotation.XmlRootElement;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.Temporal;
@@ -53,6 +54,7 @@ public class Prompt implements Serializable{
     
     @ManyToOne
     @NotNull
+    @JoinColumn(name = "AUTHOR_ID")   // el nombre que realmente tiene la tabla
     private Customer author;
     
     @ElementCollection
@@ -66,6 +68,7 @@ public class Prompt implements Serializable{
     
     @Temporal(TemporalType.TIMESTAMP)
     private Date dataCreacio;
+    
     
     
     //getters i setters

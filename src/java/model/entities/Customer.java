@@ -55,7 +55,7 @@ public class Customer implements Serializable{
     @Temporal(TemporalType.TIMESTAMP)
     private Date creationDate;
 
-    @OneToMany(mappedBy = "autor")
+    @OneToMany(mappedBy = "author")
     private List<Prompt> prompts = new ArrayList<>();
 
     @OneToMany(mappedBy = "author")
