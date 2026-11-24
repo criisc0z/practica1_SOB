@@ -92,6 +92,56 @@ public class PromptFacadeREST extends AbstractFacade<Prompt> {
         }
         return Response.ok(completo(p)).build();
     }
+        // 3. POST /rest/api/v1/prompt
+    @POST
+    @Secured
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response createPrompt(Prompt prompt) {
+
+        // Título y plantilla obligatorios
+        if (prompt == null || prompt.getTitol() == null || prompt.getTitol().isEmpty()
+                || prompt.getTemplate() == null || prompt.getTemplate().isEmpty()) {
+            return Response.status(Response.Status.BAD_REQUEST).build();     // 400
+        }
+
+        // El autor tiene que existir
+        if (prompt.getAutor() == null || prompt.getAutor().getId() == null) {
+            return Response.status(Response.Status.BAD_REQUEST).build();     // 400
+        }
+        Customer author = em.find(Customer.class, prompt.getAutor().getId());
+        if (author == null) {
+            return Response.status(Response.Status.BAD_REQUEST).build();     // 400
+        }
+
+        // Todas las herramientas indicadas tienen que existir
+        List<Tool> tools = new ArrayList<>();
+        if (prompt.getTools() != null) {
+            for (Tool t : prompt.getTools()) {
+                if (t == null || t.getId() == null) {
+                    return Response.status(Response.Status.BAD_REQUEST).build();
+                }
+                Tool real = em.find(Tool.class, t.getId());
+                if (real == null) {
+                    return Response.status(Response.Status.BAD_REQUEST).build();
+                }
+                tools.add(real);
+            }
+        }
+
+        // Guardamos
+        prompt.setAutor(author);
+        prompt.setTools(tools);
+        if (prompt.getEtiquetes() == null) {
+            prompt.setEtiquetes(new ArrayList<String>());
+        }
+        super.create(prompt);
+
+        // 201 Created con el id nuevo
+        Map<String, Object> body = new LinkedHashMap<>();
+        body.put("id", prompt.getId());
+        return Response.status(Response.Status.CREATED).entity(body).build();
+    }
     
      // Versión reducida (prompts privados)
     private Map<String, Object> resumen(Prompt p) {
