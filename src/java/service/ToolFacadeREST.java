@@ -48,15 +48,15 @@ public class ToolFacadeREST extends AbstractFacade<Tool>{
     // Llista totes les eines disponibles, ordenades pel seu nom.
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Object> findTools(@QueryParam("autor") String autor,
+    public List<Object> findTools(@QueryParam("author") String author,
                                   @QueryParam("language") String language) {
 
         // 1. Consulta base: todas las herramientas
         String jpql = "SELECT t FROM Tool t WHERE t.id > 0";
 
         // 2. Si nos pasan un filtro, añadimos la condición
-        if (autor != null && !autor.isEmpty()) {
-            jpql += " AND t.autor.username = :autor";
+        if (author != null && !author.isEmpty()) {
+            jpql += " AND t.author.username = :autor";
         }
         if (language != null && !language.isEmpty()) {
             jpql += " AND t.language = :language";
@@ -67,8 +67,8 @@ public class ToolFacadeREST extends AbstractFacade<Tool>{
 
         // 4. Creamos la consulta y le damos los valores de los filtros
         TypedQuery<Tool> query = em.createQuery(jpql, Tool.class);
-        if (autor != null && !autor.isEmpty()) {
-            query.setParameter("autor", autor);
+        if (author != null && !author.isEmpty()) {
+            query.setParameter("autor", author);
         }
         if (language != null && !language.isEmpty()) {
             query.setParameter("language", language);
@@ -93,5 +93,9 @@ public class ToolFacadeREST extends AbstractFacade<Tool>{
         return result;
     }
     
+    @Override
+    protected EntityManager getEntityManager() {
+        return em;
+    }
     
 }
