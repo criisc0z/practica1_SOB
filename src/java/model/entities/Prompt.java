@@ -121,4 +121,28 @@ public class Prompt implements Serializable{
     public void setEtiquetes(List<String> e){
         this.etiquetes=e;
     }
+    
+     public List<Tool> getTools() {
+        return tools;
+    }
+
+    public void setTools(List<Tool> tools) {
+        this.tools = tools;
+    }
+
+    public boolean isPrivat() {
+        return privat;
+    }
+
+    public void setPrivat(boolean privat) {
+        this.privat = privat;
+    }
+
+    public Date getDataCreacio() {
+        return dataCreacio;
+    }
+
+    public void setDataCreacio(Date dataCreacio) {
+        this.dataCreacio = dataCreacio;
+    }
 }
