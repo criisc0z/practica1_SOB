@@ -22,6 +22,8 @@ import authn.Secured;
 import jakarta.json.Json;
 import jakarta.json.JsonObject;
 import jakarta.json.JsonObjectBuilder;
+import jakarta.persistence.TypedQuery;
+import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.Response;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -33,7 +35,7 @@ import java.util.Map;
  */
 @Stateless
 @Path("tool")
-public abstract class ToolFacadeREST extends AbstractFacade<Tool>{
+public class ToolFacadeREST extends AbstractFacade<Tool>{
     @PersistenceContext(unitName = "Homework1PU")
     private EntityManager em;
     private Object Json;
@@ -66,7 +68,7 @@ public abstract class ToolFacadeREST extends AbstractFacade<Tool>{
         // 4. Creamos la consulta y le damos los valores de los filtros
         TypedQuery<Tool> query = em.createQuery(jpql, Tool.class);
         if (autor != null && !autor.isEmpty()) {
-            query.setParameter("author", autor);
+            query.setParameter("autor", autor);
         }
         if (language != null && !language.isEmpty()) {
             query.setParameter("language", language);
@@ -80,7 +82,7 @@ public abstract class ToolFacadeREST extends AbstractFacade<Tool>{
                 Map<String, Object> resumen = new LinkedHashMap<>();
                 resumen.put("id", t.getId());
                 resumen.put("name", t.getName());
-                resumen.put("author", t.getAuthor().getUsername());
+                resumen.put("autor", t.getAuthor().getUsername());
                 resumen.put("language", t.getLanguage());
                 result.add(resumen);
             } else {
