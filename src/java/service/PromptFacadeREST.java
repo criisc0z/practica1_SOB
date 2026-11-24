@@ -45,7 +45,7 @@ public class PromptFacadeREST extends AbstractFacade<Prompt> {
         return em;
     }
     
-    //GET /rest/api/v1/prompt?author=${author}&tag=${tag}
+    //1. GET /rest/api/v1/prompt?author=${author}&tag=${tag}
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public List<Object> findPrompts(@QueryParam("author") String author,
@@ -78,6 +78,7 @@ public class PromptFacadeREST extends AbstractFacade<Prompt> {
         return result;
     }
     
+    //2. GET /rest/api/v1/prompt/{id}
     @GET
     @Path("{id}")
     @Produces(MediaType.APPLICATION_JSON)
@@ -92,7 +93,8 @@ public class PromptFacadeREST extends AbstractFacade<Prompt> {
         }
         return Response.ok(completo(p)).build();
     }
-        // 3. POST /rest/api/v1/prompt
+    
+    // 3. POST /rest/api/v1/prompt
     @POST
     @Secured
     @Consumes(MediaType.APPLICATION_JSON)
@@ -106,10 +108,10 @@ public class PromptFacadeREST extends AbstractFacade<Prompt> {
         }
 
         // El autor tiene que existir
-        if (prompt.getAutor() == null || prompt.getAutor().getId() == null) {
+        if (prompt.getAuthor() == null || prompt.getAuthor().getId() == null) {
             return Response.status(Response.Status.BAD_REQUEST).build();     // 400
         }
-        Customer author = em.find(Customer.class, prompt.getAutor().getId());
+        Customer author = em.find(Customer.class, prompt.getAuthor().getId());
         if (author == null) {
             return Response.status(Response.Status.BAD_REQUEST).build();     // 400
         }
@@ -130,10 +132,10 @@ public class PromptFacadeREST extends AbstractFacade<Prompt> {
         }
 
         // Guardamos
-        prompt.setAutor(author);
+        prompt.setAuthor(author);
         prompt.setTools(tools);
-        if (prompt.getEtiquetes() == null) {
-            prompt.setEtiquetes(new ArrayList<String>());
+        if (prompt.getTags() == null) {
+            prompt.setTags(new ArrayList<String>());
         }
         super.create(prompt);
 
