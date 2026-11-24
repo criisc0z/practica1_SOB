@@ -53,7 +53,7 @@ public class Prompt implements Serializable{
     
     @ManyToOne
     @NotNull
-    private Customer autor;
+    private Customer author;
     
     @ElementCollection
     private List<String> etiquetes = new ArrayList<>();
@@ -106,12 +106,12 @@ public class Prompt implements Serializable{
         this.template=template;
     }
     
-    public Customer getAutor(){
-        return autor;
+    public Customer getAuthor(){
+        return author;
     }
     
-    public void setAutor(Customer a){
-        this.autor=a;
+    public void setAuthor(Customer a){
+        this.author=a;
     }
     
     public  List<String> getEtiquetes(){

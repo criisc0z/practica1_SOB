@@ -93,5 +93,12 @@ public class ToolFacadeREST extends AbstractFacade<Tool>{
         return result;
     }
     
+    //GET /rest/api/v1/tool/{id}
+    //Retorna tota la informació corresponent a l'eina identificada per {id}.
+
+
+
+
+    
     
 }
