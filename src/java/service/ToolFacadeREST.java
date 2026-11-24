@@ -23,6 +23,9 @@ import jakarta.json.Json;
 import jakarta.json.JsonObject;
 import jakarta.json.JsonObjectBuilder;
 import jakarta.ws.rs.core.Response;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  *
@@ -42,13 +45,51 @@ public abstract class ToolFacadeREST extends AbstractFacade<Tool>{
     //1. GET /rest/api/v1/tool?author=${author}&language=${language}
     // Llista totes les eines disponibles, ordenades pel seu nom.
     @GET
-    @Override
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Tool> findAll(){
-        List<Tool> llista = (List<Tool>) super.findAll().stream().sorted();
-        
+    public List<Object> findTools(@QueryParam("autor") String autor,
+                                  @QueryParam("language") String language) {
+
+        // 1. Consulta base: todas las herramientas
+        String jpql = "SELECT t FROM Tool t WHERE t.id > 0";
+
+        // 2. Si nos pasan un filtro, añadimos la condición
+        if (autor != null && !autor.isEmpty()) {
+            jpql += " AND t.autor.username = :autor";
+        }
+        if (language != null && !language.isEmpty()) {
+            jpql += " AND t.language = :language";
+        }
+
+        // 3. Orden por nombre
+        jpql += " ORDER BY t.name";
+
+        // 4. Creamos la consulta y le damos los valores de los filtros
+        TypedQuery<Tool> query = em.createQuery(jpql, Tool.class);
+        if (autor != null && !autor.isEmpty()) {
+            query.setParameter("author", autor);
+        }
+        if (language != null && !language.isEmpty()) {
+            query.setParameter("language", language);
+        }
+
+        // 5. Montamos la respuesta
+        List<Object> result = new ArrayList<>();
+        for (Tool t : query.getResultList()) {
+            if (t.isPrivat()) {
+                // Privada: solo id, nombre, autor y lenguaje
+                Map<String, Object> resumen = new LinkedHashMap<>();
+                resumen.put("id", t.getId());
+                resumen.put("name", t.getName());
+                resumen.put("author", t.getAuthor().getUsername());
+                resumen.put("language", t.getLanguage());
+                result.add(resumen);
+            } else {
+                // Pública: información completa
+                result.add(t);
+            }
+        }
+        return result;
     }
-    
     
     
 }
