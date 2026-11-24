@@ -58,7 +58,7 @@ public class Prompt implements Serializable{
     private Customer author;
     
     @ElementCollection
-    private List<String> etiquetes = new ArrayList<>();
+    private List<String> tags = new ArrayList<>();
 
     @ManyToMany
     private List<Tool> tools = new ArrayList<>();
@@ -117,12 +117,12 @@ public class Prompt implements Serializable{
         this.author=a;
     }
     
-    public  List<String> getEtiquetes(){
-        return etiquetes;
+    public  List<String> getTags(){
+        return tags;
     }
     
-    public void setEtiquetes(List<String> e){
-        this.etiquetes=e;
+    public void setTags(List<String> e){
+        this.tags=e;
     }
     
      public List<Tool> getTools() {

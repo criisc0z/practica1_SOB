@@ -44,4 +44,14 @@ public class PromptFacadeREST extends AbstractFacade<Prompt> {
     protected EntityManager getEntityManager() {
         return em;
     }
+    
+    //GET /rest/api/v1/prompt?author=${author}&tag=${tag}
+     @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<Object> findPrompts(@QueryParam("author") String author,
+                                  @QueryParam("tag") List<String> tag){
+        
+    }
+    
+    
 }
