@@ -145,6 +145,65 @@ public class PromptFacadeREST extends AbstractFacade<Prompt> {
         return Response.status(Response.Status.CREATED).entity(body).build();
     }
     
+        // 5. GET /rest/api/v1/prompt/{id}/tools
+    @GET
+    @Path("{id}/tools")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response findPromptTools(@PathParam("id") Long id, @Context SecurityContext sc) {
+        Prompt p = super.find(id);
+        if (p == null) {
+            return Response.status(Response.Status.NOT_FOUND).build();       // 404
+        }
+        boolean logueado = sc.getUserPrincipal() != null;
+        if (p.isPrivat() && !logueado) {
+            return Response.status(Response.Status.UNAUTHORIZED).build();    // 401
+        }
+        if (p.getTools().isEmpty()) {
+            return Response.status(Response.Status.NOT_FOUND).build();       // 404: sin herramientas
+        }
+
+        List<Object> result = new ArrayList<>();
+        for (Tool t : p.getTools()) {
+            if (t.isPrivat() && !logueado) {
+                Map<String, Object> r = new LinkedHashMap<>();
+                r.put("id", t.getId());
+                r.put("name", t.getName());
+                r.put("author", t.getAuthor().getUsername());
+                r.put("language", t.getLanguage());
+                result.add(r);
+            } else {
+                result.add(t);
+            }
+        }
+        return Response.ok(result).build();
+    }
+
+    // 6. PUT /rest/api/v1/prompt/{id}/tools   El cliente envía una lista de ids: [1,2,3]
+    @PUT
+    @Secured
+    @Path("{id}/tools")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response updatePromptTools(@PathParam("id") Long id, List<Long> toolIds) {
+        Prompt p = super.find(id);
+        if (p == null) {
+            return Response.status(Response.Status.NOT_FOUND).build();       // 404
+        }
+        if (toolIds == null) {
+            return Response.status(Response.Status.BAD_REQUEST).build();     // 400
+        }
+
+        List<Tool> tools = new ArrayList<>();
+        for (Long toolId : toolIds) {
+            Tool t = (toolId == null) ? null : em.find(Tool.class, toolId);
+            if (t == null) {
+                return Response.status(Response.Status.BAD_REQUEST).build(); // 400
+            }
+            tools.add(t);
+        }
+        p.setTools(tools);
+        return Response.noContent().build();                                 // 204
+    }
+    
      // Versión reducida (prompts privados)
     private Map<String, Object> resumen(Prompt p) {
         Map<String, Object> m = new LinkedHashMap<>();
