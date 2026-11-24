@@ -46,11 +46,36 @@ public class PromptFacadeREST extends AbstractFacade<Prompt> {
     }
     
     //GET /rest/api/v1/prompt?author=${author}&tag=${tag}
-     @GET
+    @GET
     @Produces(MediaType.APPLICATION_JSON)
     public List<Object> findPrompts(@QueryParam("author") String author,
                                   @QueryParam("tag") List<String> tag){
         
+        String jpql = "SELECT p FROM Prompt p";
+        if(tag != null && !tag.isEmpty()){
+            jpql += " JOIN p.etiquetes e";
+        }
+        jpql += " WHERE p.id > 0";
+        if (author != null && !author.isEmpty()) {
+            jpql += " AND p.autor.username = :author";
+        }
+        if(tag != null && !tag.isEmpty()){
+            jpql += " AND e = :tag";
+        }
+        jpql += " ORDER BY p.titol";
+        TypedQuery<Prompt> query = em.createQuery(jpql, Prompt.class);
+        if (author != null && !author.isEmpty()){ query.setParameter("author", author);}
+        if (tag != null && !tag.isEmpty()){query.setParameter("tag", tag);}
+    
+        List<Object> result = new ArrayList<>();
+        for (Prompt p : query.getResultList()) {
+            if (p.isPrivat()) {
+                result.add(resumen(p));      // privado: solo id, título, autor y fecha
+            } else {
+                result.add(completo(p));     // público: todo
+            }
+        }
+        return result;
     }
     
     
